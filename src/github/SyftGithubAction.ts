@@ -19,7 +19,6 @@ import {
   debugLog,
   getClient,
 } from "./GithubClient";
-import { downloadSyftFromZip } from "./SyftDownloader";
 import { stringify, stripEmojis } from "./Util";
 
 export const SYFT_BINARY_NAME = "syft";
@@ -124,8 +123,10 @@ async function executeSyft({
   const registryPass = core.getInput("registry-password");
 
   if (registryUser) {
+    core.setSecret(registryUser);
     env.SYFT_REGISTRY_AUTH_USERNAME = registryUser;
     if (registryPass) {
+      core.setSecret(registryPass);
       env.SYFT_REGISTRY_AUTH_PASSWORD = registryPass;
     } else {
       core.warning(
@@ -227,7 +228,7 @@ export async function downloadSyft(): Promise<string> {
     return downloadSyftWindowsWorkaround(version);
   }
 
-  const url = `https://raw.githubusercontent.com/anchore/${name}/main/install.sh`;
+  const url = `https://raw.githubusercontent.com/anchore/${name}/${version}/install.sh`;
 
   core.debug(`Installing ${name} ${version}`);
 
@@ -247,12 +248,6 @@ export async function downloadSyft(): Promise<string> {
 export async function getSyftCommand(): Promise<string> {
   const name = SYFT_BINARY_NAME + exeSuffix;
   const version = SYFT_VERSION;
-
-  const sourceSyft = await downloadSyftFromZip(version);
-  if (sourceSyft) {
-    core.info(`Using sourceSyft: '${sourceSyft}'`);
-    return sourceSyft;
-  }
 
   let syftPath = cache.find(name, version);
   if (!syftPath) {
