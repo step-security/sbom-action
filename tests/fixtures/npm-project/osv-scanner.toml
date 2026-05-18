@@ -1,0 +1,52 @@
+# Test fixture — npm-project is fake dependency data used by SBOM tests.
+# The vulnerable tar@6.1.0 is intentional fixture content, not a real
+# dependency of this action. The vulnerabilities below are suppressed
+# only for this fixture path; production deps are still scanned normally.
+
+[[IgnoredVulns]]
+id = "GHSA-34x7-hfp2-rc4v"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-3jfq-g458-7qm9"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-5955-9wpr-37jh"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-83g3-92jg-28cx"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-8qq5-rm4j-mr97"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-9ppj-qmqm-q256"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-9r2w-394v-53qc"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-f5x3-32g6-xq36"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-qffp-2rhf-9h96"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-qq89-hq3f-393p"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-r628-mhmh-qjhw"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-r6q2-hw4h-h46w"
+reason = "Test fixture (tar@6.1.0), not a real dependency"

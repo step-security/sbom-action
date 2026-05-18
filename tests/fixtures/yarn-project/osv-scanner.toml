@@ -1,0 +1,8 @@
+# Test fixture — yarn-project is fake dependency data used by SBOM tests.
+# The vulnerable trim@0.0.2 is intentional fixture content, not a real
+# dependency of this action. The vulnerability below is suppressed only
+# for this fixture path; production deps are still scanned normally.
+
+[[IgnoredVulns]]
+id = "GHSA-w5p7-h5w8-2hfq"
+reason = "Test fixture (trim@0.0.2), not a real dependency"
