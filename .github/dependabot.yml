@@ -1,0 +1,51 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /tests/fixtures/image-alpine-match-coverage
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /tests/fixtures/image-centos-match-coverage
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /tests/fixtures/image-debian-match-coverage
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /tests/fixtures/image-debian-match-coverage/javascript/pkg-json
+    schedule:
+      interval: daily
+
+  - package-ecosystem: bundler
+    directory: /tests/fixtures/image-debian-match-coverage/ruby
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /tests/fixtures/localbuild
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /tests/fixtures/npm-project
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /tests/fixtures/yarn-project
+    schedule:
+      interval: daily
