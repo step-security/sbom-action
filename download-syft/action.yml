@@ -1,6 +1,6 @@
-name: "Anchore SBOM Action / Download Syft"
+name: "SBOM Action / Download Syft"
 description: "Downloads Syft to the Action tool cache and provides a reference"
-author: "Anchore"
+author: "step-security"
 
 inputs:
   run:

@@ -1,6 +1,6 @@
-name: "Anchore SBOM Action"
+name: "SBOM Action"
 description: "Creates an SBOM (Software Bill Of Materials) from your code and container images"
-author: "Anchore"
+author: "step-security"
 branding:
   color: blue
   icon: check-circle

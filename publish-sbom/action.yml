@@ -1,6 +1,6 @@
-name: "Anchore SBOM Action / Attach SBOM to Release"
+name: "SBOM Action / Attach SBOM to Release"
 description: "Creates an SBOM (Software Bill Of Materials) from your code and container images"
-author: "Anchore"
+author: "step-security"
 inputs:
   run:
     required: true
