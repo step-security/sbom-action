@@ -108,6 +108,9 @@ export function getMocks(test: testType) {
           setFailed(msg: string) {
             data.failed.message = msg;
           },
+          setSecret() {
+            // ignore
+          },
           info() {
             // ignore
           },
