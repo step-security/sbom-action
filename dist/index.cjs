@@ -79483,7 +79483,7 @@ var import_path4 = __toESM(require("path"), 1);
 var import_stream8 = __toESM(require("stream"), 1);
 
 // src/SyftVersion.ts
-var VERSION9 = "v1.42.3";
+var VERSION9 = "v1.51.1";
 
 // src/github/Executor.ts
 async function execute(cmd, args, options) {
@@ -114714,6 +114714,9 @@ function stripEmojis(text) {
   const emojiRegex = /(?:[\u2700-\u27BF]|[\uE000-\uF8FF]|[\uD83C-\uDBFF][\uDC00-\uDFFF]|\ud83d[\udc00-\ude4f\ude80-\udeff]|\ud83e[\udd10-\udd3f\udd40-\uddff])/g;
   return text.replace(emojiRegex, "");
 }
+function isReleaseTag(version3) {
+  return /^v\d+\.\d+\.\d+([-+][\w.+-]+)?$/.test(version3);
+}
 
 // src/github/GithubClient.ts
 function dashWrap(str) {
@@ -115038,7 +115041,9 @@ function getClient2(repo, githubToken) {
 
 // src/github/SyftGithubAction.ts
 var SYFT_BINARY_NAME = "syft";
-var SYFT_VERSION = getInput("syft-version") || VERSION9;
+function getSyftVersion() {
+  return getInput("syft-version") || VERSION9;
+}
 var PRIOR_ARTIFACT_ENV_VAR = "ANCHORE_SBOM_ACTION_PRIOR_ARTIFACT";
 var tempDir = fs10.mkdtempSync(import_path4.default.join(import_os6.default.tmpdir(), "sbom-action-"));
 var githubDependencySnapshotFile = `${tempDir}/github.sbom.json`;
@@ -115172,6 +115177,9 @@ async function executeSyft({
     return stdout;
   }
 }
+function describeError(e) {
+  return e instanceof Error ? e.message : stringify(e);
+}
 function isWindows() {
   return process.platform == "win32";
 }
@@ -115179,26 +115187,74 @@ async function downloadSyftWindowsWorkaround(version3) {
   const versionNoV = version3.replace(/^v/, "");
   const url3 = `https://github.com/anchore/syft/releases/download/${version3}/syft_${versionNoV}_windows_amd64.zip`;
   info(`Downloading syft from ${url3}`);
-  const zipPath = await downloadTool(url3);
+  let zipPath;
+  try {
+    zipPath = await downloadTool(url3);
+  } catch (e) {
+    throw new Error(
+      `Unable to download Syft from ${url3}: ${describeError(e)}. If this is not a transient network failure, check that '${version3}' is a released version of Syft: https://github.com/anchore/${SYFT_BINARY_NAME}/releases`,
+      { cause: e }
+    );
+  }
   const toolDir = await extractZip(zipPath);
   return import_path4.default.join(toolDir, `${SYFT_BINARY_NAME}${exeSuffix}`);
 }
 async function downloadSyft() {
   const name = SYFT_BINARY_NAME;
-  const version3 = SYFT_VERSION;
+  const version3 = getSyftVersion();
+  const isTag = isReleaseTag(version3);
   if (isWindows()) {
+    if (!isTag) {
+      throw new Error(
+        `Syft version '${version3}' is not a release tag. Specify a tag such as '${VERSION9}': https://github.com/anchore/${name}/releases`
+      );
+    }
     return downloadSyftWindowsWorkaround(version3);
   }
-  const url3 = `https://raw.githubusercontent.com/anchore/${name}/${version3}/install.sh`;
+  if (!isTag) {
+    warning(
+      `Syft version '${version3}' is not a release tag, so the installer cannot be pinned to it. Specify a tag such as '${VERSION9}' to install a pinned version of Syft.`
+    );
+  }
+  const ref = isTag ? version3 : "main";
+  const url3 = `https://raw.githubusercontent.com/anchore/${name}/${ref}/install.sh`;
   debug(`Installing ${name} ${version3}`);
-  const installPath = await downloadTool(url3);
+  let installPath;
+  try {
+    installPath = await downloadTool(url3);
+  } catch (e) {
+    const hint = isTag ? ` If this is not a transient network failure, check that '${version3}' is a released version of Syft: https://github.com/anchore/${name}/releases` : "";
+    throw new Error(
+      `Unable to download the Syft installer from ${url3}: ${describeError(e)}.${hint}`,
+      { cause: e }
+    );
+  }
   const syftBinaryPath = `${installPath}_${name}`;
-  await execute("sh", [installPath, "-d", "-b", syftBinaryPath, version3]);
+  const exitCode = await execute(
+    "sh",
+    [installPath, "-d", "-b", syftBinaryPath, version3],
+    {
+      env: {
+        ...process.env,
+        // The installer fetches and re-executes the copy of itself belonging to
+        // the tag it is installing, which would undo the pin above; tell the
+        // pinned script to install directly instead. A version that is not a
+        // tag is resolved by the installer, so it has to do that fetch itself.
+        DOWNLOAD_TAG_INSTALL_SCRIPT: isTag ? "false" : "true"
+      },
+      ignoreReturnCode: true
+    }
+  );
+  if (exitCode > 0) {
+    throw new Error(
+      `The Syft installer failed to install ${version3}; see the log above for details`
+    );
+  }
   return import_path4.default.join(syftBinaryPath, name) + exeSuffix;
 }
 async function getSyftCommand() {
   const name = SYFT_BINARY_NAME + exeSuffix;
-  const version3 = SYFT_VERSION;
+  const version3 = getSyftVersion();
   let syftPath = find(name, version3);
   if (!syftPath) {
     syftPath = await downloadSyft();
