@@ -157,7 +157,7 @@ jobs:
           path: ./
           persist-credentials: false
 
-      - uses: ./download-syft # anchore/sbom-action/download-syft
+      - uses: ./download-syft # step-security/sbom-action/download-syft
         id: syft
 
       - env:
@@ -166,7 +166,7 @@ jobs:
           echo "$SYFT_CMD"
           "$SYFT_CMD" dir:.
 
-      - uses: ./ # anchore/sbom-action
+      - uses: ./ # step-security/sbom-action
         id: dirscan
         with:
           artifact-name: dirscan-sbom.spdx
@@ -176,7 +176,7 @@ jobs:
           echo DIR SCAN SBOM:
           cat dirscan-sbom.spdx
 
-      - uses: ./ # anchore/sbom-action
+      - uses: ./ # step-security/sbom-action
         id: imagescan
         with:
           image: alpine:latest
@@ -186,15 +186,15 @@ jobs:
           echo IMAGE SCAN SBOM:
           cat my.sbom
 
-      - uses: ./publish-sbom # anchore/sbom-action/publish-sbom
+      - uses: ./publish-sbom # step-security/sbom-action/publish-sbom
         with:
           sbom-artifact-match: imagescan-sbom.spdx
 
-      - uses: ./publish-sbom # anchore/sbom-action/publish-sbom
+      - uses: ./publish-sbom # step-security/sbom-action/publish-sbom
         with:
           sbom-artifact-match: "^dont-match-anything$"
 
-      - uses: ./ # anchore/sbom-action with artifact retention
+      - uses: ./ # step-security/sbom-action with artifact retention
         name: "One day artifact retention test"
         id: one-day
         with:
