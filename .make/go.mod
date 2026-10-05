@@ -1,6 +1,6 @@
 module github.com/step-security/sbom-action/.make
 
-go 1.25.0
+go 1.25.13
 
 require github.com/anchore/go-make v0.8.1
 

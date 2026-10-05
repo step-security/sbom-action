@@ -50,3 +50,27 @@ reason = "Test fixture (tar@6.1.0), not a real dependency"
 [[IgnoredVulns]]
 id = "GHSA-r6q2-hw4h-h46w"
 reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-23hp-3jrh-7fpw"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-8x88-c5mf-7j5w"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-gvwx-54wh-qm9j"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-r292-9mhp-454m"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-vmf3-w455-68vh"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
+
+[[IgnoredVulns]]
+id = "GHSA-w8wr-v893-vjvp"
+reason = "Test fixture (tar@6.1.0), not a real dependency"
