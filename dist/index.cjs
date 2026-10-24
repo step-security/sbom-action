@@ -80139,7 +80139,7 @@ var import_path4 = __toESM(require("path"), 1);
 var import_stream8 = __toESM(require("stream"), 1);
 
 // src/SyftVersion.ts
-var VERSION9 = "v1.51.1";
+var VERSION9 = "v1.54.0";
 
 // src/github/Executor.ts
 async function execute(cmd, args, options) {
