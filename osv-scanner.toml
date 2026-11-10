@@ -1,0 +1,7 @@
+[[IgnoredVulns]]
+id = "GHSA-3g3m-2fjr-6pw4"
+reason = "glob only used by dev tooling (eol-converter-cli) and transitively by archiver-utils via @actions/artifact, which only zips a single fixed file and never runs glob walks with an AbortSignal on untrusted input"
+
+[[IgnoredVulns]]
+id = "GHSA-g3hv-75wg-m249"
+reason = "minimatch is used by dev tooling (eslint, typescript-eslint) and by archiver-utils via @actions/artifact, which never passes attacker-controlled patterns to it; the action only uploads a single fixed file"
