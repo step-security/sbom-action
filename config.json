@@ -1,0 +1,17 @@
+{
+  "$comment": "Managed automatically when syncing with upstream. Do not edit by hand.",
+  "schema_version": 1,
+  "onboarding_type": "copied",
+  "action_type": "node",
+  "upstream": {
+    "repository": "anchore/sbom-action",
+    "synced_tag": "v0.24.3",
+    "synced_commit": "66cbf4bc1f1c0d2edc94016e65bc221b6bb0ad6c",
+    "archived": false
+  },
+  "build": {
+    "package_manager": "npm@11.20.0",
+    "node_version": "24",
+    "script": "all"
+  }
+}
